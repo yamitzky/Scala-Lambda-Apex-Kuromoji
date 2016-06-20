@@ -1,18 +1,21 @@
 name := "lambda-kuromoji"
 
-version := "1.0"
-
-scalaVersion := "2.11.8"
-
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint")
+
+lazy val commonSettings = Seq(
+  version := "1.0",
+  scalaVersion := "2.11.8"
+)
 
 lazy val root = (project in file("."))
   .aggregate(core, segmentation)
 
 lazy val core = (project in file("modules/core"))
+  .settings(commonSettings: _*)
   .settings(
     // you can find the newest version here: https://github.com/aws/aws-lambda-java-libs
     libraryDependencies ++= Seq(
+      "org.json4s" %% "json4s-jackson" % "3.4.0",
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
 
       // To do logging, aws-lambda-java-log4j is useful. See https://docs.aws.amazon.com/lambda/latest/dg/java-logging.html
@@ -24,7 +27,10 @@ lazy val core = (project in file("modules/core"))
   )
 
 lazy val segmentation = (project in file("modules/segmentation"))
-  .dependsOn(core)
+  .settings(commonSettings: _*)
+  .dependsOn(core, kuromoji4s)
+
+lazy val kuromoji4s = uri("https://github.com/jxpress/kuromoji4s.git#master")
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard

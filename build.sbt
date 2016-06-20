@@ -19,10 +19,12 @@ lazy val core = (project in file("modules/core"))
       "com.amazonaws" % "aws-lambda-java-core" % "1.1.0",
 
       // To do logging, aws-lambda-java-log4j is useful. See https://docs.aws.amazon.com/lambda/latest/dg/java-logging.html
-      "com.amazonaws" % "aws-lambda-java-log4j" % "1.0.0"
+      "com.amazonaws" % "aws-lambda-java-log4j" % "1.0.0",
 
       // If you would handle S3, Kinesis, DynamoDB, SNS events, import this
-      // "com.amazonaws" % "aws-lambda-java-events" % "1.3.0"
+      // "com.amazonaws" % "aws-lambda-java-events" % "1.3.0",
+
+      "org.scalatest" %% "scalatest" % "2.2.6" % "test"
     )
   )
 
@@ -31,7 +33,10 @@ lazy val segmentation = (project in file("modules/segmentation"))
   .settings(
     assemblyOutputPath in assembly := file("functions/segmentation/target/apex.jar")
   )
-  .dependsOn(core, kuromoji4s)
+  .dependsOn(
+    core % "test->test;compile->compile",
+    kuromoji4s % "test->test;compile->compile"
+  )
 
 lazy val kuromoji4s = uri("https://github.com/jxpress/kuromoji4s.git#master")
 

@@ -28,6 +28,9 @@ lazy val core = (project in file("modules/core"))
 
 lazy val segmentation = (project in file("modules/segmentation"))
   .settings(commonSettings: _*)
+  .settings(
+    assemblyOutputPath in assembly := file("functions/segmentation/target/apex.jar")
+  )
   .dependsOn(core, kuromoji4s)
 
 lazy val kuromoji4s = uri("https://github.com/jxpress/kuromoji4s.git#master")

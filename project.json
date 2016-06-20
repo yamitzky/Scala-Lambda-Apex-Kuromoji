@@ -1,0 +1,9 @@
+
+{
+  "name": "kuromoji",
+  "description": "Scala running on Lambda, using Apex and Kuromoji",
+  "memory": 256,
+  "timeout": 5,
+  "defaultEnvironment": "dev",
+  "environment": {}
+}

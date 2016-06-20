@@ -1,6 +1,6 @@
 
 resource "aws_iam_role" "lambda_function" {
-  name = "apex_lambda_function"
+  name = "lambda_scala_apex_kuromoji"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -18,7 +18,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "cloudwatchlogs_full_access" {
-  name = "cloudwatchlogs_full_access"
+  name = "lambda_basic_execution"
   role = "${aws_iam_role.lambda_function.id}"
   policy = <<EOF
 {
@@ -26,10 +26,12 @@ resource "aws_iam_role_policy" "cloudwatchlogs_full_access" {
   "Statement": [
     {
       "Action": [
-        "logs:*"
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
       ],
       "Effect": "Allow",
-      "Resource": "*"
+      "Resource": "arn:aws:logs:*:*:*"
     }
   ]
 }

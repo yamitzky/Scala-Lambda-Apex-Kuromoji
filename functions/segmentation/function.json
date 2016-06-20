@@ -1,0 +1,4 @@
+{
+  "description": "Word Segmentation by Scala",
+  "handler": "SegmentationHandler::handler"
+}
